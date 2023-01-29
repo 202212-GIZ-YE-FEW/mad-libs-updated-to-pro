@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <div class='madLibsEdit'>
-    </div>
-    <div class='madLibsPreview'>
-    </div>
-    <script src="do-not-touch.js"></script>
-    <script src="madlibs.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Mad Libs</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div class='madLibsEdit'>
+    <h1>Mad Libs</h1>
+    <p>Fill in the blanks to create a story.</p>
+    <form>
+      <div class='madLibsInput'>
+        <label for='noun'>Noun</label>
+        <input type='text' id='noun' name='noun'>
+      </div>
+      <div class='madLibsInput'>
+        <label for='verb'>Verb</label>
+        <input type='text' id='verb' name='verb'>
+      </div>
+      <div class='madLibsInput'>
+        <label for='adjective'>Adjective</label>
+        <input type='text' id='adjective' name='adjective'>
+      </div>
+    </form>
+  </div>
+  <div class='madLibsPreview'>
+  </div>
+  <script src="do-not-touch.js"></script>
+  <script src="madlibs.js"></script>
+</body>
+
 </html>
