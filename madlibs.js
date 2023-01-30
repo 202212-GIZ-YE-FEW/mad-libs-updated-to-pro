@@ -27,6 +27,30 @@
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
 
+function parseStory(rawStory) {
+  let words = rawStory.split(/(?=[,.\s])/g);
+  let result = [];
+  const posMap = {
+    n: "noun",
+    v: "verb",
+    a: "adjective",
+    r: "adverb",
+  };
+  words.forEach(word => {
+    let wordObj = { word: word.trim() }
+    if (word.includes("[")) {
+      let pos = word.match(/\[([a-z])\]/)[1];
+      wordObj.pos = posMap[pos];
+    } else if (word.includes(",")) {
+      wordObj.word = ",";
+    }
+    else if (word.includes(".")) {
+      wordObj.word = ".";
+    }
+    result.push(wordObj);
+  });
+  return result;
+}
 
 /**
  * All your other JavaScript code goes here, inside the function. Don't worry about
@@ -94,3 +118,9 @@ inputEdit.forEach((input, i) => {
     
   });
 });
+
+getRawStory()
+  .then(parseStory)
+  .then((processedStory) => {
+    console.log(processedStory);
+  })
