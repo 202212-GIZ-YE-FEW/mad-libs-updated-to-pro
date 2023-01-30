@@ -26,31 +26,7 @@
  * There are multiple ways to do this, but you may want to use regular expressions.
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
-function parseStory(rawStory) {
-  let storyWordsArr = [];
-  let spilttedStory = rawStory.split(/(?=[,.\s])/g);
 
-  spilttedStory.forEach((word) => {
-    let wordObj = {};
-    let tirmWord = word.trim();
-    if (tirmWord == word.match(/\w*\[.*?\]/g)) {
-      let splitPOS = tirmWord.split(/(?=[[ ])/);
-
-      wordObj.word = splitPOS[0];
-      wordObj.pos = splitPOS[1];
-
-      storyWordsArr.push(wordObj);
-    } else {
-      wordObj.word = tirmWord;
-      storyWordsArr.push(wordObj);
-    }
-  });
-  return storyWordsArr;
-  // This line is currently wrong :)
-}
-// getRawStory().then(parseStory).then((processedStory) => {
-//   console.log(processedStory);
-// });
 
 /**
  * All your other JavaScript code goes here, inside the function. Don't worry about
