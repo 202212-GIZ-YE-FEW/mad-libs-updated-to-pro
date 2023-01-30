@@ -27,8 +27,15 @@
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
 function parseStory(rawStory) {
-  // Your code here.
-  return {}; // This line is currently wrong :)
+  const fs =require("fs")
+  fs.readFile('story.txt',"utf-8",(err,data)=>{
+    if(err){
+      return;
+    }
+    let story =data;
+    console.log(story)
+  })
+
 }
 
 /**
