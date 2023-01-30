@@ -28,28 +28,32 @@
  */
 
 function parseStory(rawStory) {
-  let storyWordsArr = [];
-  let spilttedStory = rawStory.split(/(?=[,.\s])/g);
-
-  spilttedStory.forEach((word) => {
-    let wordObj = {};
-    let tirmWord = word.trim();
-    if (tirmWord == word.match(/\w*\[.*?\]/g)) {
-      let splitPOS = tirmWord.split(/(?=[[ ])/);
-
-      wordObj.word = splitPOS[0];
-      wordObj.pos = splitPOS[1];
-
-      storyWordsArr.push(wordObj);
-    } else {
-      wordObj.word = tirmWord;
-      storyWordsArr.push(wordObj);
+  let words = rawStory.split(/(?=[,.\s])/g);
+  let result = [];
+  const posMap = {
+    n: "noun",
+    v: "verb",
+    a: "adjective",
+    r: "adverb",
+  };
+  words.forEach(word => {
+    let wordObj = { word: word.trim() }
+    if (word.includes("[")) {
+      let pos = word.match(/\[([a-z])\]/)[1];
+      wordObj.pos = posMap[pos];
+    } else if (word.includes(",")) {
+      wordObj.word = ",";
     }
+    else if (word.includes(".")) {
+      wordObj.word = ".";
+    }
+    result.push(wordObj);
   });
-  return storyWordsArr;
+  return result;
 }
+
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
     console.log(processedStory);
-  });
+});
