@@ -36,15 +36,14 @@ function parseStory(rawStory) {
     a: "adjective",
     r: "adverb",
   };
-  words.forEach(word => {
-    let wordObj = { word: word.trim() }
+  words.forEach((word) => {
+    let wordObj = { word: word.trim() };
     if (word.includes("[")) {
       let pos = word.match(/\[([a-z])\]/)[1];
       wordObj.pos = posMap[pos];
     } else if (word.includes(",")) {
       wordObj.word = ",";
-    }
-    else if (word.includes(".")) {
+    } else if (word.includes(".")) {
       wordObj.word = ".";
     }
     result.push(wordObj);
@@ -60,67 +59,77 @@ function parseStory(rawStory) {
  */
 
 const inputEdit = document.querySelectorAll(".madLibsEdit  input");
-const preview = document.getElementsByClassName(".madLibsPreview ");
 const previewDiv = document.querySelector(".madLibsPreview");
-
-let mathcedBrackets = previewDiv.innerHTML.match(/\w*\[.*?\]/g);
 
 let joinStory = getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-    gatheringStory(processedStory)
+    gatheringStory(processedStory);
   });
 
-
-function gatheringStory(ps){
+function gatheringStory(ps) {
   let fullStory = "";
-  let i = 0 // to make id for each box
+  const createSpan = createWordSpan();
+
   ps.forEach((ps) => {
-    if (ps.hasOwnProperty("pos")){
-    //  console.log(ps);
-     let newWord = document.createElement("span");
-      newWord.setAttribute("id", `${i}`);
-          newWord.style.border = "2px solid black";
-          newWord.style.display = "inline-block"; 
-          newWord.style.height = "3vh";
-          newWord.style.margin = "0 auto"
-          newWord.style.padding = "2px"
-          // newWord.style.textAlign = "center"
-          newWord.style.width = "20vh";
-         
-     fullStory += newWord.outerHTML+ " ";
-     i++
-    }
+    if (ps.hasOwnProperty("pos")) {
+      let newCreatedSpan = createSpan(ps);
+      fullStory += newCreatedSpan.outerHTML + " ";
+    } 
     else {
       fullStory += ps.word + " ";
     }
-   
   });
   let storySpan = document.createElement("div");
-  storySpan.setAttribute("id","story-span")
- 
+  storySpan.setAttribute("id", "story-span");
   storySpan.innerHTML = fullStory;
   previewDiv.append(storySpan);
-  
 }
 
+function createWordSpan() {
+  let i = 0; // to make id for each box
+  return function createElement(ps) {
+    let newWord = document.createElement("span");
+    newWord.setAttribute("id", `${i}`);
+    newWord.setAttribute("title", ps.pos);
+    newWord.style.border = "2px solid black";
+    newWord.style.display = "inline-block";
+    newWord.style.height = "15px";
+    newWord.style.margin = "0 auto";
+    newWord.style.padding = "2px";
+    // newWord.style.width = "20vh";
+    newWord.innerHTML = ps.pos;
+    newWord.style.color = "grey";
+    i++;
+    return newWord;
+  }
 
+}
 
 inputEdit.forEach((input, i) => {
-  inputEdit[i].addEventListener("keyup", () => {
-    let spansTag = document.querySelector("#story-span")
-     console.log(parseInt(spansTag.children[i].id) === i);
-    if (parseInt(spansTag.children[i].id) === i)
-      {
-        // console.log(inputEdit[i].value);
-        spansTag.children[i].innerHTML = inputEdit[i].value
+  input.addEventListener("keyup", (event) => {
+    let spansTag = document.querySelector("#story-span");
+    let spanChild = spansTag.children[i];
+
+    if (event.key === "Backspace") {
+      spanChild.style.color = "green";
+      spanChild.innerHTML = `Give me ${spanChild.title}`;
+    } 
+    else {
+      if (event.key === "Enter") {
+        if (parseInt(spanChild.id) === i) {
+          validateWord(input.value, spanChild.title).then((result) => {
+            if (result === true) {
+              spanChild.style.color = "blue";
+              spanChild.innerHTML = input.value;
+            } else {
+              spanChild.style.color = "purple";
+              spanChild.innerHTML = `still not ${spanChild.title}`;
+              input.value = "";
+            }
+          });
+        }
       }
-    
+    }
   });
 });
-
-getRawStory()
-  .then(parseStory)
-  .then((processedStory) => {
-    console.log(processedStory);
-  })
