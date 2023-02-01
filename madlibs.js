@@ -57,3 +57,32 @@ getRawStory()
   .then((processedStory) => {
     console.log(processedStory);
 });
+
+function displayStory(processedStory) {
+  let story = "";
+  const madLibsEdit = document.querySelector(".madLibsEdit");
+  const madLibsPreview = document.querySelector(".madLibsPreview");
+  processedStory.forEach((word) => {
+    if (word.hasOwnProperty("pos")) {
+      let input = document.createElement("input");
+      input.setAttribute("type", "text");
+      input.setAttribute("placeholder", word.pos);
+      madLibsEdit.append(input);
+      story += " " + word.word;
+    } else {
+      story += " " + word.word;
+    }
+  });
+  madLibsPreview.innerHTML = story;
+}
+
+
+
+function validateInput(input){
+        
+  if(input <= input.charAt(20))
+
+
+}
+
+
