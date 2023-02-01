@@ -26,7 +26,7 @@
   
 }
 .showing_story {
-  height: 50vh; /*can be change*/
+  height: auto; /*can be change*/
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -37,4 +37,14 @@
   background-color: burlywood;
   padding: 20px;
   margin: 30px;
+}
+
+@media only screen and (max-width: 600px) {
+  .showing_story {
+    height: auto; /*can be change*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* background-color: blue; */
+  }
 }
