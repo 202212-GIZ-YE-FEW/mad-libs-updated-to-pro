@@ -78,11 +78,14 @@ function displayStory(processedStory) {
 
 
 
-function validateInput(input){
-        
-  if(input <= input.charAt(20))
-
-
+function validateInput(input) {
+ if ( input.length <= 20) {
+   return true
+ }
+ else  {
+   input.style.color = 'red' ; 
+   return false ; 
+ 
+ }
 }
-
 
