@@ -73,9 +73,12 @@ function gatheringStory(story) {
   let previewIndex = 0;
   let previewStory = "";
   let editStory = "";
+  
+  
   story.forEach((obj) => {
+    let placeholderLength = `Enter ${obj.pos}`.length // added this to get placeholder length to make input "size" suitable
     if (obj.pos) {
-      editStory = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}">`;
+      editStory = `<input type="text" size = ${placeholderLength} id="input-${inputIndex}" placeholder= "Enter ${obj.pos}" title="${obj.pos}">`;
       previewStory += `<span class="preview_el" id="preview-${previewIndex}">${obj.pos} </span>`;
       inputIndex += 1;
       previewIndex += 1;
