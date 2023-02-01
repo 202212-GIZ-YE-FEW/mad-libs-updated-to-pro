@@ -1,3 +1,13 @@
 /**
  * Your CSS goes here.
  */
+.preview_el {
+  border: 2px solid black;
+  display: inline-block;
+  padding: 2px;
+  height: 15px;
+  margin: 0 auto;
+  color: grey;
+  border-radius: 5px;
+  
+}
