@@ -1,6 +1,20 @@
 /**
  * Your CSS goes here.
  */
+ body{
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+ }
+ #first_section{
+  background-color: coral;
+  height: 20vh; /*can be change*/
+  background-image: url(/assest/first_section_picjpg.jpg);
+  background-size: cover;
+
+ }
+
 .preview_el {
   border: 2px solid black;
   display: inline-block;
@@ -10,4 +24,17 @@
   color: grey;
   border-radius: 5px;
   
+}
+.showing_story {
+  height: 50vh; /*can be change*/
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: pink;
+}
+
+.card{
+  background-color: burlywood;
+  padding: 20px;
+  margin: 30px;
 }
