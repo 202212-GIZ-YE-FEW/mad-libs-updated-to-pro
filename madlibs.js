@@ -58,78 +58,71 @@ function parseStory(rawStory) {
  * You'll want to use the results of parseStory() to display the story on the page.
  */
 
-const inputEdit = document.querySelectorAll(".madLibsEdit  input");
+const inputEdit = document.querySelectorAll(".madLibsEdit");
 const previewDiv = document.querySelector(".madLibsPreview");
 
 let joinStory = getRawStory()
   .then(parseStory)
   .then((processedStory) => {
+    // displayStory(processedStory);
     gatheringStory(processedStory);
   });
 
-function gatheringStory(ps) {
-  let fullStory = "";
-  const createSpan = createWordSpan();
-
-  ps.forEach((ps) => {
-    if (ps.hasOwnProperty("pos")) {
-      let newCreatedSpan = createSpan(ps);
-      fullStory += newCreatedSpan.outerHTML + " ";
-    } 
-    else {
-      fullStory += ps.word + " ";
+function gatheringStory(story) {
+  let inputIndex = 0;
+  let previewIndex = 0;
+  let previewStory = "";
+  let editStory = "";
+  story.forEach((obj) => {
+    if (obj.pos) {
+      editStory = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}">`;
+      previewStory += `<span class="preview_el" id="preview-${previewIndex}">${obj.pos} </span>`;
+      inputIndex += 1;
+      previewIndex += 1;
+    } else {
+      editStory = `<span>${obj.word} </span>`;
+      previewStory += `<span>${obj.word} </span>`;
     }
+    inputEdit.forEach((div) => {
+      div.innerHTML += editStory;
+    });
+    previewDiv.innerHTML = previewStory;
   });
-  let storySpan = document.createElement("div");
-  storySpan.setAttribute("id", "story-span");
-  storySpan.innerHTML = fullStory;
-  previewDiv.append(storySpan);
+  liveUpdate();
 }
 
-function createWordSpan() {
-  let i = 0; // to make id for each box
-  return function createElement(ps) {
-    let newWord = document.createElement("span");
-    newWord.setAttribute("id", `${i}`);
-    newWord.setAttribute("title", ps.pos);
-    newWord.style.border = "2px solid black";
-    newWord.style.display = "inline-block";
-    newWord.style.height = "15px";
-    newWord.style.margin = "0 auto";
-    newWord.style.padding = "2px";
-    // newWord.style.width = "20vh";
-    newWord.innerHTML = ps.pos;
-    newWord.style.color = "grey";
-    i++;
-    return newWord;
-  }
+function liveUpdate() {
+  const inputEdit = document.querySelectorAll(".madLibsEdit input");
+  let spansTags = document.querySelectorAll(".preview_el");
 
-}
+  inputEdit.forEach((input, i) => {
+    input.addEventListener("keyup", (event) => {
+      let spanChild = spansTags[i];
 
-inputEdit.forEach((input, i) => {
-  input.addEventListener("keyup", (event) => {
-    let spansTag = document.querySelector("#story-span");
-    let spanChild = spansTag.children[i];
+      let inputNum = input.id.substring(6); // getting the input id number
+      let previewNum = spansTags[i].id.substring(8);// getting the preview id number
 
-    if (event.key === "Backspace") {
-      spanChild.style.color = "green";
-      spanChild.innerHTML = `Give me ${spanChild.title}`;
-    } 
-    else {
-      if (event.key === "Enter") {
-        if (parseInt(spanChild.id) === i) {
-          validateWord(input.value, spanChild.title).then((result) => {
-            if (result === true) {
-              spanChild.style.color = "blue";
-              spanChild.innerHTML = input.value;
-            } else {
-              spanChild.style.color = "purple";
-              spanChild.innerHTML = `still not ${spanChild.title}`;
-              input.value = "";
-            }
-          });
+      if (event.key === "Backspace") 
+      {
+        spanChild.style.color = "green";
+        spanChild.innerHTML = `Give me ${input.title}`;
+      } 
+      else {
+        if (event.key === "Enter") {
+          if (previewNum === inputNum) {
+            validateWord(input.value, input.title).then((result) => {
+              if (result) {
+                spanChild.style.color = "blue";
+                spanChild.innerHTML = input.value;
+              } else {
+                spanChild.style.color = "purple";
+                spanChild.innerHTML = `still not ${input.title}`;
+                input.value = "";
+              }
+            });
+          }
         }
       }
-    }
+    });
   });
-});
+}
