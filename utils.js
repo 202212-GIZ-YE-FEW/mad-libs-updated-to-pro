@@ -14,8 +14,8 @@ async function getStories(){
             <div class="col-2" style="margin-bottom: 20px; cursor: pointer;" onclick="getStory(${story.id})">
                 <div class="card">
                     <div class="container">
-                        <h4><b>${story.title}</b></h4>
-                        <h5>${story.get_languages}</h5>
+                        <h4 style="color: black !important;">${story.title}</h4>
+                        <h5 style="color: black !important;">${story.get_languages}</h5>
                     </div>
                 </div>
             </div>
