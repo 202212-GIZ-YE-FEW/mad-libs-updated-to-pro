@@ -117,7 +117,7 @@ function liveUpdate() {
           if (previewNum === inputNum) {
             validateWord(input.value, input.title).then((result) => {
               if (result) {
-                console.log("enter");
+                // console.log("enter");
                 spanChild.style.color = "blue";
                 spanChild.innerHTML = input.value;
                 inputEdit[i+1].focus()
