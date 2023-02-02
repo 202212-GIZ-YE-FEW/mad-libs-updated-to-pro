@@ -1,8 +1,13 @@
 async function getStories(){
-    fetch("https://madlibs-api-gymhn.ondigitalocean.app/api/stories/")
+    /**
+     * This function is called to get all stories.
+     * @returns {array} - An array of stories.
+     */
+    await fetch("https://madlibs-api-gymhn.ondigitalocean.app/api/stories/")
     .then(response => response.json())
     .then(data => {
         const storiesContainer = document.getElementById("stories");
+        document.getElementById("loader-container").style.display = "none";
         let storyHTML = "";
         data.forEach(story => { 
             storyHTML += `
@@ -10,6 +15,7 @@ async function getStories(){
                 <div class="card">
                     <div class="container">
                         <h4><b>${story.title}</b></h4>
+                        <h5>${story.get_languages}</h5>
                     </div>
                 </div>
             </div>

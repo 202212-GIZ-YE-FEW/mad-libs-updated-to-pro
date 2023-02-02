@@ -2,7 +2,6 @@
  * Your CSS goes here.
  */
 
-
 .row::after {
   content: "";
   clear: both;
@@ -66,4 +65,15 @@
 }
 .container {
   padding: 2px 16px;
+}
+#loader {
+  width: 200px;
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#loader-container {
+  margin: 25px;
+  position: relative;
 }

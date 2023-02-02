@@ -58,6 +58,8 @@ function parseStory(rawStory) {
  * You'll want to use the results of parseStory() to display the story on the page.
  */
 
+getStories();
+
 const inputEdit = document.querySelectorAll(".madLibsEdit");
 const previewDiv = document.querySelector(".madLibsPreview");
 
@@ -72,8 +74,6 @@ const getStory = (index) => {
     displayStory(processedStory);
   });
 }
-
-getStories();
 
 function displayStory(story) {
   let inputIndex = 0;
