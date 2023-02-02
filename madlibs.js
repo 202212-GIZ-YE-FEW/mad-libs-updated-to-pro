@@ -80,6 +80,7 @@ function displayStory(story) {
   let previewIndex = 0;
   let editHTML = "";
   story.forEach((obj) => {
+    let placeholderLength = `Enter ${obj.pos}`.length // added this to get placeholder length to make input "size" suitable
     if (obj.pos) {
       editHTML = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}" data-pos="${obj.pos}">`;
       previewDiv.innerHTML += `<span class="preview-el" id="preview-${previewIndex}">${obj.pos} </span>`;
@@ -99,14 +100,24 @@ function displayStory(story) {
 function liveUpdate() {
   const inputEdit = document.querySelectorAll(".madLibsEdit input");
   let spansTags = document.querySelectorAll(".preview-el");
+  inputEdit.forEach((input) => {
 
+    input.addEventListener("input", (e) => {
+      let id = e.target.id;
+      id = id.substring(6);
+      if (e.target.value) {
+        if (validateInput(input))
+          document.querySelector(`#preview-${id}`).innerHTML = `${e.target.value} `;
+        else
+          document.querySelector(`#preview-${id}`).innerHTML = "-----";
+      }
+    });
+  });
   inputEdit.forEach((input, i) => {
     input.addEventListener("keyup", (event) => {
       let spanChild = spansTags[i];
-
       let inputNum = input.id.substring(6); // getting the input id number
       let previewNum = spansTags[i].id.substring(8); // getting the preview id number
-
       if (event.key === "Backspace") {
         input.style.color = "black";
         spanChild.style.color = "green";
@@ -131,7 +142,6 @@ function liveUpdate() {
               alert("Word is lengthier than 20 letter");
               input.value = "";
               input.style.color = "black";
-              console.log("input >20");
             }
           }
         }
@@ -141,13 +151,12 @@ function liveUpdate() {
 }
 
 function validateInput(input) {
-  
+  console.log(input.value.length);
   if (input.value.length <= 20) {
+    input.style.background = "green";
     return true;
   } else {
-    // console.log(input);
-    input.style.color = "red";
-
+    input.style.background = "red";
     return false;
   }
 }
