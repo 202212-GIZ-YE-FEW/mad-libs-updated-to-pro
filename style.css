@@ -1,7 +1,54 @@
-/**
- * Your CSS goes here.
- */
+* {
+  color: #fff;
+  text-align: center;
+}
+.showing_story {
+  /* background: linear-gradient(90deg, rgba(0,251,231,1) 0%, rgba(199,140,228,0.5468312324929971) 54%,rgba(225,109,199,0.5272233893557423) 100%); */
+  background: linear-gradient(
+    90deg,
+    rgba(113, 74, 154, 1) 0%,
+    rgba(199, 140, 228, 0.5468312324929971) 54%,
+    rgba(225, 109, 199, 0.5272233893557423) 100%
+  );
+}
 
+#bgimg2 {
+}
+#Editstory {
+  background-image: url(https://images.pexels.com/photos/4014919/pexels-photo-4014919.jpeg?auto=compress&cs=tinysrgb&w=600);
+  /* background-color:#d9acf553; */
+  margin: 40px;
+  padding-top: 40px;
+}
+#bgimg3 {
+}
+#Previewstory {
+  background-image: url(https://images.pexels.com/photos/1643113/pexels-photo-1643113.jpeg?auto=compress&cs=tinysrgb&w=600);
+  background-color: #ffcefe;
+  margin: 40px;
+  padding-top: 40px;
+}
+#Logo {
+  position: absolute;
+  width: auto;
+  height: 170px;
+  top: -50px;
+  left: 42%;
+}
+
+input {
+  background-color: #fdebed;
+  border-radius: 20px;
+  outline: #fdebed;
+  /* margin-bottom: 20px !important;  */
+  width: 50%;
+  /* display: flex; */
+}
+
+#Editstory input {
+  margin-bottom: 10px !important;
+  /* display: flex; */
+}
 .row::after {
   content: "";
   clear: both;
