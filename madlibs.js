@@ -69,11 +69,11 @@ const getStory = (index) => {
   });
   previewDiv.innerHTML = "";
   getRawStory(index)
-  .then(parseStory)
-  .then((processedStory) => {
-    displayStory(processedStory);
-  });
-}
+    .then(parseStory)
+    .then((processedStory) => {
+      displayStory(processedStory);
+    });
+};
 
 function displayStory(story) {
   let inputIndex = 0;
@@ -105,28 +105,34 @@ function liveUpdate() {
       let spanChild = spansTags[i];
 
       let inputNum = input.id.substring(6); // getting the input id number
-      let previewNum = spansTags[i].id.substring(8);// getting the preview id number
+      let previewNum = spansTags[i].id.substring(8); // getting the preview id number
 
-      if (event.key === "Backspace") 
-      {
+      if (event.key === "Backspace") {
+        input.style.color = "black";
         spanChild.style.color = "green";
         spanChild.innerHTML = `Give me ${input.title}`;
-      } 
-      else {
+      } else {
         if (event.key === "Enter") {
           if (previewNum === inputNum) {
-            validateWord(input.value, input.title).then((result) => {
-              if (result) {
-                // console.log("enter");
-                spanChild.style.color = "blue";
-                spanChild.innerHTML = input.value;
-                inputEdit[i+1].focus()
-              } else {
-                spanChild.style.color = "purple";
-                spanChild.innerHTML = `still not ${input.title}`;
-                input.value = "";
-              }
-            });
+            if (validateInput(input)) {
+              validateWord(input.value, input.title).then((result) => {
+                if (result) {
+                  console.log("enter");
+                  spanChild.style.color = "blue";
+                  spanChild.innerHTML = input.value;
+                  inputEdit[i + 1].focus();
+                } else {
+                  spanChild.style.color = "purple";
+                  spanChild.innerHTML = `still not ${input.title}`;
+                  input.value = "";
+                }
+              });
+            } else {
+              alert("Word is lengthier than 20 letter");
+              input.value = "";
+              input.style.color = "black";
+              console.log("input >20");
+            }
           }
         }
       }
@@ -134,3 +140,14 @@ function liveUpdate() {
   });
 }
 
+function validateInput(input) {
+  
+  if (input.value.length <= 20) {
+    return true;
+  } else {
+    // console.log(input);
+    input.style.color = "red";
+
+    return false;
+  }
+}
