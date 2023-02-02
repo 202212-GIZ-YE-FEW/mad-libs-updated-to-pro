@@ -132,7 +132,7 @@ function liveUpdate() {
                   spanChild.innerHTML = input.value;
                   inputEdit[i + 1].focus();
                 } else {
-                  spanChild.style.color = "purple";
+                  spanChild.style.color = "red";
                   spanChild.innerHTML = `still not ${input.title}`;
                   input.value = "";
                 }
