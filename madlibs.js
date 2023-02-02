@@ -128,7 +128,6 @@ function liveUpdate() {
                 }
               });
             } else {
-              // input.value = "word is greater than 20";
               alert("Word is lengthier than 20 letter");
               input.value = "";
               input.style.color = "black";
