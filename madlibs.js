@@ -58,71 +58,70 @@ function parseStory(rawStory) {
  * You'll want to use the results of parseStory() to display the story on the page.
  */
 
+getStories();
+
 const inputEdit = document.querySelectorAll(".madLibsEdit");
 const previewDiv = document.querySelector(".madLibsPreview");
 
-let joinStory = getRawStory()
+const getStory = (index) => {
+  inputEdit.forEach((div) => {
+    div.innerHTML = "";
+  });
+  previewDiv.innerHTML = "";
+  getRawStory(index)
   .then(parseStory)
   .then((processedStory) => {
-    // displayStory(processedStory);
-    gatheringStory(processedStory);
+    displayStory(processedStory);
   });
+}
 
-function gatheringStory(story) {
+function displayStory(story) {
   let inputIndex = 0;
   let previewIndex = 0;
-  let previewStory = "";
-  let editStory = "";
+  let editHTML = "";
   story.forEach((obj) => {
     if (obj.pos) {
-      editStory = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}">`;
-      previewStory += `<span class="preview_el" id="preview-${previewIndex}">${obj.pos} </span>`;
+      editHTML = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}" data-pos="${obj.pos}">`;
+      previewDiv.innerHTML += `<span class="preview-el" id="preview-${previewIndex}">${obj.pos} </span>`;
       inputIndex += 1;
       previewIndex += 1;
     } else {
-      editStory = `<span>${obj.word} </span>`;
-      previewStory += `<span>${obj.word} </span>`;
+      editHTML = `<span>${obj.word} </span>`;
+      previewDiv.innerHTML += `<span>${obj.word} </span>`;
     }
     inputEdit.forEach((div) => {
-      div.innerHTML += editStory;
+      div.innerHTML += editHTML;
     });
-    previewDiv.innerHTML = previewStory;
   });
   liveUpdate();
 }
 
 function liveUpdate() {
-  const inputEdit = document.querySelectorAll(".madLibsEdit input");
-  let spansTags = document.querySelectorAll(".preview_el");
-
-  inputEdit.forEach((input, i) => {
-    input.addEventListener("keyup", (event) => {
-      let spanChild = spansTags[i];
-
-      let inputNum = input.id.substring(6); // getting the input id number
-      let previewNum = spansTags[i].id.substring(8);// getting the preview id number
-
-      if (event.key === "Backspace") 
-      {
-        spanChild.style.color = "green";
-        spanChild.innerHTML = `Give me ${input.title}`;
-      } 
-      else {
-        if (event.key === "Enter") {
-          if (previewNum === inputNum) {
-            validateWord(input.value, input.title).then((result) => {
-              if (result) {
-                spanChild.style.color = "blue";
-                spanChild.innerHTML = input.value;
-              } else {
-                spanChild.style.color = "purple";
-                spanChild.innerHTML = `still not ${input.title}`;
-                input.value = "";
-              }
-            });
-          }
-        }
+  let inputs = document.querySelectorAll(".madLibsEdit input");
+  inputs.forEach((input) => {
+    input.addEventListener("input", (e) => {
+      let id = e.target.id;
+      id = id.substring(6);
+      if (e.target.value) {
+        document.querySelector(`#preview-${id}`).innerHTML = `${e.target.value} `;
+      } else {
+        document.querySelector(`#preview-${id}`).innerHTML = `${e.target.dataset.pos}`;
       }
     });
+    keyPressHandler("Backspace", (e) => {
+      let id = e.target.id;
+      id = id.substring(6);
+      let spanEl = document.querySelector(`#preview-${id}`);
+      spanEl.style.color = "green";
+      spanEl.innerHTML = `Give me ${e.target.dataset.pos}`;
+    })
+    keyPressHandler("Enter", (e) => {
+      let id = e.target.id;
+      id = id.substring(6);
+      let nextInput = document.querySelector(`#input-${parseInt(id) + 1}`);
+      if (nextInput) {
+        nextInput.focus();
+      }
+    })
   });
 }
