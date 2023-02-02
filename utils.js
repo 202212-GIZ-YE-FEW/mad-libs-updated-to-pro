@@ -1,3 +1,32 @@
+async function getStories(){
+    /**
+     * This function is called to get all stories.
+     * @returns {array} - An array of stories.
+     */
+    await fetch("https://madlibs-api-gymhn.ondigitalocean.app/api/stories/")
+    .then(response => response.json())
+    .then(data => {
+        const storiesContainer = document.getElementById("stories");
+        document.getElementById("loader-container").style.display = "none";
+        let storyHTML = "";
+        data.forEach(story => { 
+            storyHTML += `
+            <div class="col-2" style="margin-bottom: 20px; cursor: pointer;" onclick="getStory(${story.id})">
+                <div class="card">
+                    <div class="container">
+                        <h4><b>${story.title}</b></h4>
+                        <h5>${story.get_languages}</h5>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        storiesContainer.innerHTML = storyHTML;
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
 function keyPressHandler(key, callback) {
     /**
      * This function is called when a key is pressed.
@@ -6,7 +35,7 @@ function keyPressHandler(key, callback) {
      */
     document.addEventListener('keydown', (event) => {
         if (event.key === key) {
-            callback();
+            callback(event);
         }
     });
 }

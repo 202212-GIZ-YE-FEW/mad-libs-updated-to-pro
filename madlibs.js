@@ -58,74 +58,96 @@ function parseStory(rawStory) {
  * You'll want to use the results of parseStory() to display the story on the page.
  */
 
+getStories();
+
 const inputEdit = document.querySelectorAll(".madLibsEdit");
 const previewDiv = document.querySelector(".madLibsPreview");
 
-let joinStory = getRawStory()
-  .then(parseStory)
-  .then((processedStory) => {
-    // displayStory(processedStory);
-    gatheringStory(processedStory);
+const getStory = (index) => {
+  inputEdit.forEach((div) => {
+    div.innerHTML = "";
   });
+  previewDiv.innerHTML = "";
+  getRawStory(index)
+    .then(parseStory)
+    .then((processedStory) => {
+      displayStory(processedStory);
+    });
+};
 
-function gatheringStory(story) {
+function displayStory(story) {
   let inputIndex = 0;
   let previewIndex = 0;
-  let previewStory = "";
-  let editStory = "";
-  
-  
+  let editHTML = "";
   story.forEach((obj) => {
     let placeholderLength = `Enter ${obj.pos}`.length // added this to get placeholder length to make input "size" suitable
     if (obj.pos) {
-      editStory = `<input type="text" size = ${placeholderLength} id="input-${inputIndex}" placeholder= "Enter ${obj.pos}" title="${obj.pos}">`;
-      previewStory += `<span class="preview_el" id="preview-${previewIndex}">${obj.pos} </span>`;
+      editHTML = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}" data-pos="${obj.pos}">`;
+      previewDiv.innerHTML += `<span class="preview-el" id="preview-${previewIndex}">${obj.pos} </span>`;
       inputIndex += 1;
       previewIndex += 1;
     } else {
-      editStory = `<span>${obj.word} </span>`;
-      previewStory += `<span>${obj.word} </span>`;
+      editHTML = `<span>${obj.word} </span>`;
+      previewDiv.innerHTML += `<span>${obj.word} </span>`;
     }
     inputEdit.forEach((div) => {
-      div.innerHTML += editStory;
+      div.innerHTML += editHTML;
     });
-    previewDiv.innerHTML = previewStory;
   });
   liveUpdate();
 }
 
 function liveUpdate() {
   const inputEdit = document.querySelectorAll(".madLibsEdit input");
-  let spansTags = document.querySelectorAll(".preview_el");
+  let spansTags = document.querySelectorAll(".preview-el");
 
   inputEdit.forEach((input, i) => {
     input.addEventListener("keyup", (event) => {
       let spanChild = spansTags[i];
 
       let inputNum = input.id.substring(6); // getting the input id number
-      let previewNum = spansTags[i].id.substring(8);// getting the preview id number
+      let previewNum = spansTags[i].id.substring(8); // getting the preview id number
 
-      if (event.key === "Backspace") 
-      {
+      if (event.key === "Backspace") {
+        input.style.color = "black";
         spanChild.style.color = "green";
         spanChild.innerHTML = `Give me ${input.title}`;
-      } 
-      else {
+      } else {
         if (event.key === "Enter") {
           if (previewNum === inputNum) {
-            validateWord(input.value, input.title).then((result) => {
-              if (result) {
-                spanChild.style.color = "blue";
-                spanChild.innerHTML = input.value;
-              } else {
-                spanChild.style.color = "purple";
-                spanChild.innerHTML = `still not ${input.title}`;
-                input.value = "";
-              }
-            });
+            if (validateInput(input)) {
+              validateWord(input.value, input.title).then((result) => {
+                if (result) {
+                  console.log("enter");
+                  spanChild.style.color = "blue";
+                  spanChild.innerHTML = input.value;
+                  inputEdit[i + 1].focus();
+                } else {
+                  spanChild.style.color = "purple";
+                  spanChild.innerHTML = `still not ${input.title}`;
+                  input.value = "";
+                }
+              });
+            } else {
+              alert("Word is lengthier than 20 letter");
+              input.value = "";
+              input.style.color = "black";
+            }
           }
         }
       }
     });
   });
+}
+
+function validateInput(input) {
+  
+  if (input.value.length <= 20) {
+    return true;
+  } else {
+    // console.log(input);
+    input.style.color = "red";
+
+    return false;
+  }
 }
