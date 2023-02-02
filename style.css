@@ -38,7 +38,9 @@ input {
   top: -50px;
   left: 42%;
 }
-
+.stories-container{
+  padding: 50px;
+}
 input {
   background-color: #fdebed;
   border-radius: 20px;
