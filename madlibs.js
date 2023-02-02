@@ -64,11 +64,10 @@ const previewDiv = document.querySelector(".madLibsPreview");
 let joinStory = getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-    // displayStory(processedStory);
-    gatheringStory(processedStory);
+    displayStory(processedStory);
   });
 
-function gatheringStory(story) {
+function displayStory(story) {
   let inputIndex = 0;
   let previewIndex = 0;
   let previewStory = "";
