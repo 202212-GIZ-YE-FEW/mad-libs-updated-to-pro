@@ -82,7 +82,7 @@ function displayStory(story) {
   story.forEach((obj) => {
     let placeholderLength = `Enter ${obj.pos}`.length // added this to get placeholder length to make input "size" suitable
     if (obj.pos) {
-      editHTML = `<input type="text" id="input-${inputIndex}" placeholder="Enter ${obj.pos}" title="${obj.pos}" data-pos="${obj.pos}">`;
+      editHTML = `<input type="text" id="input-${inputIndex}" size = ${placeholderLength} placeholder="Enter ${obj.pos}" title="${obj.pos}" data-pos="${obj.pos}">`;
       previewDiv.innerHTML += `<span class="preview-el" id="preview-${previewIndex}">${obj.pos} </span>`;
       inputIndex += 1;
       previewIndex += 1;
