@@ -109,7 +109,7 @@ function liveUpdate() {
         if (validateInput(input))
           document.querySelector(`#preview-${id}`).innerHTML = `${e.target.value} `;
         else
-          document.querySelector(`#preview-${id}`).innerHTML = "-----";
+          document.querySelector(`#preview-${id}`).innerHTML = `${e.target.dataset.pos} `;
       }
     });
   });
@@ -128,7 +128,6 @@ function liveUpdate() {
             if (validateInput(input)) {
               validateWord(input.value, input.title).then((result) => {
                 if (result) {
-                  console.log("enter");
                   spanChild.style.color = "blue";
                   spanChild.innerHTML = input.value;
                   inputEdit[i + 1].focus();
@@ -151,7 +150,6 @@ function liveUpdate() {
 }
 
 function validateInput(input) {
-  console.log(input.value.length);
   if (input.value.length <= 20) {
     input.style.background = "green";
     return true;
