@@ -14,7 +14,8 @@
   flex-direction: row;
 }
 
-#bgimg2 {
+input {
+  width: 100px !important;
 }
 #Editstory {
   background-image: url(https://images.pexels.com/photos/4014919/pexels-photo-4014919.jpeg?auto=compress&cs=tinysrgb&w=600);
