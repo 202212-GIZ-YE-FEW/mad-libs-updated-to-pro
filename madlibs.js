@@ -141,7 +141,7 @@ function liveUpdate() {
 }
 
 function validateInput(input) {
-  // console.log();
+  
   if (input.value.length <= 20) {
     return true;
   } else {
